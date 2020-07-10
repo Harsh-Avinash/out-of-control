@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour {
     }
  
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
  
         yRot += Input.GetAxis("Mouse X") * mouseSensitivity;
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRot, transform.localEulerAngles.z);
@@ -33,23 +33,21 @@ public class Movement : MonoBehaviour {
  
         if (Input.GetAxisRaw("Horizontal") > 0.5f || Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            //transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * playerSpeed);
-            rigidBody.velocity += transform.right * Input.GetAxisRaw("Horizontal") * playerSpeed;
+            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * playerSpeed * 0.1f);
+            //GetComponent<Rigidbody>().velocity += transform.right * Input.GetAxisRaw("Horizontal") * playerSpeed * 0.1f;
             isMoving = true;
         }
         if (Input.GetAxisRaw("Vertical") > 0.5f || Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            //transform.Translate(Vector3.forward * Input.GetAxis("Vertical") * playerSpeed);
-            rigidBody.velocity += transform.forward * Input.GetAxisRaw("Vertical") * playerSpeed;
+            transform.Translate(Vector3.forward * Input.GetAxis("Vertical") * playerSpeed * 0.1f);
+            //GetComponent<Rigidbody>().velocity += transform.forward * Input.GetAxisRaw("Vertical") * playerSpeed * 0.1f;
             isMoving = true;
         }
-        if(!isMoving) {
-        	rigidBody.velocity = new Vector3(0, 0, 0);
-        }
+        
  
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            transform.Translate(Vector3.up * jumpHeight);
+            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpHeight * 10f);
         }
  
         if (Input.GetAxisRaw("Sprint") > 0f)
