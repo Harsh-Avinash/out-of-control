@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<MidiSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SoundFonts>
+    <SoundFontInfo>
+      <Name>GeneralUser_GS_SoftSynth_v144</Name>
+      <PatchCount>275</PatchCount>
+      <WaveCount>864</WaveCount>
+      <WaveSize>35273280</WaveSize>
+      <SF2Path>C:/Users/Thierry/AppData/LocalLow/Bachmann/MidiListPlayer\SoundFont\GeneralUser_GS_SoftSynth_v144.sf2</SF2Path>
+    </SoundFontInfo>
+  </SoundFonts>
+  <IndexSelectedSF>0</IndexSelectedSF>
+  <MidiFiles>
+    <string>MIDI_sample</string>
+  </MidiFiles>
+</MidiSet>
