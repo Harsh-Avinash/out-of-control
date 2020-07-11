@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour {
     void FixedUpdate () {
 
         //isSprinting and playerSpeed can be declared locally
-        bool isSprinting = Input.GetButton("Sprint");
+        bool isSprinting = Input.GetButton("Fire3");
         float playerSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
         Vector3 horizontalVelocity = rigidbody.velocity;

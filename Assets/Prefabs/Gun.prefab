@@ -4944,7 +4944,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2847659117875266115}
-  - component: {fileID: 2847659117875266113}
+  - component: {fileID: 7426253990269734536}
   - component: {fileID: 2847659117875266112}
   m_Layer: 0
   m_Name: Gun
@@ -4971,7 +4971,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2847659117875266113
+--- !u!114 &7426253990269734536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4980,7 +4980,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2847659117875266114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30ddc7471b66fa7479b320d70890e298, type: 3}
+  m_Script: {fileID: 11500000, guid: 047e56f1ab543c443bd7963927618635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 2847659117875266112}
