@@ -14,6 +14,15 @@ TagManager:
   - UI
   - 
   - 
+  - Vault
+  - Wallrun
+  - Ledge
+  - TopWater
+  - UnderWater
+  - Overlay
+  - OverlayGun
+  - DamageZone
+  - interactable
   - 
   - 
   - 
@@ -28,16 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
   m_SortingLayers:
   - name: Default
     uniqueID: 0
