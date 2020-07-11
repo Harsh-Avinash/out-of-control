@@ -23,6 +23,7 @@ public class PlayerMovement : InterpolatedTransform
     public CharacterController controller;
     [HideInInspector]
     public bool playerControl = false;
+    private int doubleJump = 2;
 
     public bool grounded = false;
     public Vector3 jump = Vector3.zero;
@@ -109,6 +110,9 @@ public class PlayerMovement : InterpolatedTransform
             moveDirection = transform.TransformDirection(moveDirection) * speed;
             UpdateJump();
         }
+        else if(doubleJump == 1) {
+            UpdateJump();
+        }
         else
         {
             Vector3 adjust = new Vector3(input.x, 0, input.y);
@@ -139,7 +143,6 @@ public class PlayerMovement : InterpolatedTransform
         }
         else
             moveDirection = move;
-
         UpdateJump();
 
         grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
@@ -187,7 +190,10 @@ public class PlayerMovement : InterpolatedTransform
         }
         else
             jumpedDir = Vector3.zero;
+            doubleJump = 2;
         jump = Vector3.zero;
+        Debug.Log(doubleJump);
+        
     }
 
     public void ForceMove(Vector3 direction, float speed, float time, bool applyGravity)
