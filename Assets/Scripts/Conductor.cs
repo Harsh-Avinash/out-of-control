@@ -1,52 +1,94 @@
-﻿using System.Collections;
+﻿using MidiPlayerTK;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Conductor : MonoBehaviour
-{
+public class Conductor : MonoBehaviour {
 
-	//Song beats per minute
-	//This is determined by the song you're trying to sync up to
-	public float songBpm;
+    public AudioSource musicSource;
+    private float dspSongTime;
 
-	//The number of seconds for each song beat
-	public float secPerBeat;
+    public MidiFileLoader midiFileLoader;
+    private List<MPTKEvent> midiEvents;
+    private int midiEventIndex = -1;
 
-	//Current song position, in seconds
-	public float songPosition;
+    public Transform level;
+    private Quaternion startRotation = Quaternion.identity;
+    private Vector3 additionalRotationEuler;
 
-	//Current song position, in beats
-	public float songPositionInBeats;
+    public AnimationCurve curve;
 
-	//How many seconds have passed since the song started
-	public float dspSongTime;
+    const float minTimeBetweenRotations = 0.125f;
 
-	//an AudioSource attached to this GameObject that will play the music.
-	public AudioSource musicSource;
+    void Start() {
+        dspSongTime = (float)AudioSettings.dspTime;
+        musicSource?.Play();
+        Debug.Log("Loading " + midiFileLoader.MPTK_MidiName + " (index " + midiFileLoader.MPTK_MidiIndex + ")...");
+        midiFileLoader.MPTK_Load();
+        Debug.Log("Reading events...");
+        midiEvents = midiFileLoader.MPTK_ReadMidiEvents();
+    }
 
-	// Start is called before the first frame update
-	void Start()
-    {
-        //Load the AudioSource attached to the Conductor GameObject
-	    musicSource = GetComponent<AudioSource>();
-		  //Calculate the number of seconds in each beat
-		secPerBeat = 60f / songBpm;
+    private void PrintEvents() {
+        foreach (MPTKEvent midiEvent in midiEvents) {
+            Debug.Log("{channel: " + midiEvent.Channel +
+                ", note: " + midiEvent.Value +
+                ", velocity: " + midiEvent.Velocity +
+                ", duration: " + midiEvent.Duration + " ms" +
+                ", tick: " + midiEvent.Tick +
+                ", command: " + midiEvent.Command + "}");
+        }
+    }
 
-		    //Record the time when the music starts
-		dspSongTime = (float)AudioSettings.dspTime;
+    void Update() {
 
-		    //Start the music
-		musicSource.Play();
-	}
+        float minTimeBetweenRotations = curve.keys[curve.keys.Length - 1].time;
 
-	    // Update is called once per frame
-	void Update()
-	{
-	        //determine how many seconds since the song started
-		songPosition = (float)(AudioSettings.dspTime - dspSongTime);
+        float songPositionInSeconds = (float)(AudioSettings.dspTime - dspSongTime);
+        float ticksPerSecond = midiFileLoader.MPTK_DeltaTicksPerQuarterNote / (midiFileLoader.MPTK_MicrosecondsPerQuarterNote / 1000000f);
+        float songPositionInTicks = songPositionInSeconds * ticksPerSecond;
 
-		    //determine how many beats since the song started
+        for (int i = midiEventIndex + 1; i < midiEvents.Count; i++) {
 
-	    songPositionInBeats = songPosition / secPerBeat;	
-	}  
+            MPTKEvent midiEvent = midiEvents[i];
+
+            if (midiEvent.Tick > songPositionInTicks) {
+
+                break;
+
+            } else if (midiEvent.Command == MPTKCommand.NoteOn && (midiEventIndex < 0 || midiEvent.Tick > midiEvents[midiEventIndex].Tick + ticksPerSecond * minTimeBetweenRotations)) {
+
+                midiEventIndex = i;
+                startRotation = Quaternion.Euler(additionalRotationEuler) * startRotation;
+
+                switch (midiEvent.Channel % 6) {
+                    case 0:
+                        additionalRotationEuler = new Vector3(90, 0, 0);
+                        break;
+                    case 1:
+                        additionalRotationEuler = new Vector3(-90, 0, 0);
+                        break;
+                    case 2:
+                        additionalRotationEuler = new Vector3(0, 90, 0);
+                        break;
+                    case 3:
+                        additionalRotationEuler = new Vector3(0, -90, 0);
+                        break;
+                    case 4:
+                        additionalRotationEuler = new Vector3(0, 0, 90);
+                        break;
+                    case 5:
+                        additionalRotationEuler = new Vector3(0, 0, -90);
+                        break;
+                }
+            }
+        }
+
+        if (midiEventIndex > 0) {
+            float timeSinceEventInTicks = songPositionInTicks - midiEvents[midiEventIndex].Tick;
+            float timeSinceEventInSeconds = timeSinceEventInTicks / ticksPerSecond;
+            level.rotation = Quaternion.Euler(additionalRotationEuler * curve.Evaluate(timeSinceEventInSeconds)) * startRotation;
+        }
+    }
 }
