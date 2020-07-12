@@ -14,16 +14,24 @@ public class EnemyMovement : MonoBehaviour
     private int it;
     public GameObject enemyPrefab;
     public GameObject spawn;
+    public static int enemyKills = 0;
+    public GameObject winScreen;
+    private bool game;
 
     void Start()
     {
         alive = true;
         it = 1;
+        game = true;
     }
 
     void Update()
     {
-    	if(!transform) return;
+	    if(game) {
+	    	if(transform == null) {
+	    		return;
+	    		enemyKills++;
+	    	}
 	        if(alive) {
 	        	transform.position += (player.transform.position - transform.position).normalized * speed * Time.deltaTime;
 	        	transform.rotation = Quaternion.Euler(player.transform.rotation.eulerAngles);
@@ -39,7 +47,12 @@ public class EnemyMovement : MonoBehaviour
 	        if(it%250 == 0) {
 	        	GameObject enemy = Instantiate(enemyPrefab, spawn.transform.position, new Quaternion(0,0,0,0)) as GameObject;
 	        }
-	    
+		    if(enemyKills == 1) {
+		    	winScreen.SetActive(true);
+		    	game = false;
+		    }
+		    Debug.Log(enemyKills);
+		}
         
     }
     public void SetAlive(bool a) {

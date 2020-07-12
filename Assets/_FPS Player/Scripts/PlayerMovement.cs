@@ -33,6 +33,9 @@ public class PlayerMovement : InterpolatedTransform
     private float forceTime = 0;
     private float jumpPower;
     UnityEvent onReset = new UnityEvent();
+    public GameObject winScreen;
+
+    public GameObject enemies;
 
     public override void OnEnable()
     {
@@ -78,6 +81,11 @@ public class PlayerMovement : InterpolatedTransform
 
         if (forceTime > 0)
             forceTime -= Time.deltaTime;
+
+        if(enemies.transform.childCount == 0) {
+            Cursor.lockState = CursorLockMode.None;
+            winScreen.SetActive(true);
+        }
     }
 
     public override void FixedUpdate()
@@ -207,4 +215,5 @@ public class PlayerMovement : InterpolatedTransform
     {
         contactPoint = hit.point;
     }
+
 }
