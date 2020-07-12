@@ -44,7 +44,7 @@ public class EnemyMovement : MonoBehaviour
 	        }
 
 	        it++;
-	        if(it%250 == 0) {
+	        if(it%250 == 0 && it < 510) {
 	        	GameObject enemy = Instantiate(enemyPrefab, spawn.transform.position, new Quaternion(0,0,0,0)) as GameObject;
 	        }
 		    if(enemyKills == 1) {
