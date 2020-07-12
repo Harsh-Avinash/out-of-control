@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class MyStaticValues
+{
+   public static int EnemiesKilled;
+}
+
 public class TargetDamageable : Damageable
 {
     public float BackUpTime = 2f;
@@ -35,12 +40,7 @@ public class TargetDamageable : Damageable
 
     void TargetDied()
     {
-        StartCoroutine(getBackUp());
-        IEnumerator getBackUp()
-        {
-            hurt = 1f;
-            yield return new WaitForSeconds(BackUpTime);
-            Heal();
-        }
+        EnemiesKilled += 1;
+        Destroy (gameObject);
     }
 }
