@@ -4,7 +4,6 @@ using UnityEngine;
 
 public static class MyStaticValues
 {
-   public static int EnemiesKilled;
 }
 
 public class TargetDamageable : Damageable
@@ -40,7 +39,6 @@ public class TargetDamageable : Damageable
 
     void TargetDied()
     {
-        EnemiesKilled += 1;
         Destroy (gameObject);
     }
 }

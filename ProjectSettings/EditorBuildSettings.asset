@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Lots of Buildings.unity
+    guid: 37f3fd5530cbb4b95803e0eff44c6ad8
+  - enabled: 1
+    path: Assets/Scenes/UI.unity
+    guid: fa0913115ac1d4fba8b9d10280f4b04d
   m_configObjects: {}

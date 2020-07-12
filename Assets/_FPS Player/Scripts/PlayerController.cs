@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private float sprintReserve = 4f;
     [SerializeField]
     private float sprintMinimum = 2f;
+    private int health;
 
     new CameraMovement camera;
     PlayerMovement movement;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        health = 10;
         playerInput = GetComponent<PlayerInput>();
 
         movement = GetComponent<PlayerMovement>();
@@ -314,11 +316,16 @@ public class PlayerInfo
     public float height;
     public float halfradius;
     public float halfheight;
+    private int health;
 
     public PlayerInfo(float r, float h)
     {
         radius = r; height = h;
         halfradius = r / 2f; halfheight = h / 2f;
         rayDistance =  halfheight + radius + .175f;
+    }
+    public void Hurt(int damage)
+    {
+        health -= damage;
     }
 }
