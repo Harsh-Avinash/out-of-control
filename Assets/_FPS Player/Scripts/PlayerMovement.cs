@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : InterpolatedTransform
@@ -34,8 +35,11 @@ public class PlayerMovement : InterpolatedTransform
     private float jumpPower;
     UnityEvent onReset = new UnityEvent();
     public GameObject winScreen;
+    public GameObject looseScreen;
 
     public GameObject enemies;
+    private int health = 5;
+    public TMP_Text healthDisplay = null;
 
     public override void OnEnable()
     {
@@ -86,6 +90,12 @@ public class PlayerMovement : InterpolatedTransform
             Cursor.lockState = CursorLockMode.None;
             winScreen.SetActive(true);
         }
+        if(health < 0) {
+            looseScreen.SetActive(true);
+        }
+
+        if(health != 0) healthDisplay.text = "Health: " + health.ToString();
+        else healthDisplay.text = "";
     }
 
     public override void FixedUpdate()
@@ -214,6 +224,12 @@ public class PlayerMovement : InterpolatedTransform
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         contactPoint = hit.point;
+    }
+
+    void OnCollisionEnter(Collision col) {
+        if(col.gameObject.tag == "Enemy") {
+            health--;
+        }
     }
 
 }
