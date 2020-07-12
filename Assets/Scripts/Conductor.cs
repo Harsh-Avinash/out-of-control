@@ -64,22 +64,22 @@ public class Conductor : MonoBehaviour {
 
                 switch (midiEvent.Channel % 6) {
                     case 0:
-                        additionalRotationEuler = new Vector3(90, 0, 0);
+                        additionalRotationEuler = new Vector3(1, 0, 0);
                         break;
                     case 1:
-                        additionalRotationEuler = new Vector3(-90, 0, 0);
+                        additionalRotationEuler = new Vector3(-1, 0, 0);
                         break;
                     case 2:
-                        additionalRotationEuler = new Vector3(0, 90, 0);
+                        additionalRotationEuler = new Vector3(0, 1, 0);
                         break;
                     case 3:
-                        additionalRotationEuler = new Vector3(0, -90, 0);
+                        additionalRotationEuler = new Vector3(0, -1, 0);
                         break;
                     case 4:
-                        additionalRotationEuler = new Vector3(0, 0, 90);
+                        additionalRotationEuler = new Vector3(0, 0, 1);
                         break;
                     case 5:
-                        additionalRotationEuler = new Vector3(0, 0, -90);
+                        additionalRotationEuler = new Vector3(0, 0, -1);
                         break;
                 }
             }
