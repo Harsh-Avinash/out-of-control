@@ -12,6 +12,8 @@ public class EnemyMovement : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject player;
     private int it;
+    public GameObject enemyPrefab;
+    public GameObject spawn;
 
     void Start()
     {
@@ -21,18 +23,23 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if(alive) {
-        	transform.position += (player.transform.position - transform.position).normalized * speed * Time.deltaTime;
-        	transform.rotation = Quaternion.Euler(-player.transform.rotation.eulerAngles);
-        }
+    	if(!transform) return;
+	        if(alive) {
+	        	transform.position += (player.transform.position - transform.position).normalized * speed * Time.deltaTime;
+	        	transform.rotation = Quaternion.Euler(player.transform.rotation.eulerAngles);
+	        }
 
-        if(it%40 == 0) {
-        	GameObject bullet = Instantiate(bulletPrefab, transform.position, new Quaternion(0,0,0,0)) as GameObject;
-        	Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        	rb.velocity = (player.transform.position - transform.position).normalized * 30;
-        }
+	        if(it%50 == 0) {
+	        	GameObject bullet = Instantiate(bulletPrefab, transform.position, new Quaternion(0,0,0,0)) as GameObject;
+	        	Rigidbody rb = bullet.GetComponent<Rigidbody>();
+	        	rb.velocity = (player.transform.position - transform.position).normalized * 30;
+	        }
 
-        it++;
+	        it++;
+	        if(it%250 == 0) {
+	        	GameObject enemy = Instantiate(enemyPrefab, spawn.transform.position, new Quaternion(0,0,0,0)) as GameObject;
+	        }
+	    
         
     }
     public void SetAlive(bool a) {

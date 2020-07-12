@@ -13,7 +13,6 @@ public class Conductor : MonoBehaviour {
     private List<MPTKEvent> midiEvents;
     private int midiEventIndex = -1;
 
-    public Rigidbody level;
     private Quaternion startRotation = Quaternion.identity;
     private Vector3 additionalRotationEuler;
 
@@ -88,7 +87,6 @@ public class Conductor : MonoBehaviour {
         if (midiEventIndex > 0) {
             float timeSinceEventInTicks = songPositionInTicks - midiEvents[midiEventIndex].Tick;
             float timeSinceEventInSeconds = timeSinceEventInTicks / ticksPerSecond;
-            level.MoveRotation(Quaternion.Euler(additionalRotationEuler * curve.Evaluate(timeSinceEventInSeconds)) * startRotation);
         }
     }
 }
